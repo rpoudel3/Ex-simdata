@@ -1,22 +1,91 @@
 ---
-title: "Title:Academic Scores, Weight Status and Physical fitness in Schoolchildren"
+title: "Title:Effect of Physical fitness in the Academic Achievement of Schoolchildren"
 author: "Rashmi Poudel"
 date: "May 19, 2016"
 output: html_document
 ---
+#### Data simulation is based on the article:
+Torrijos-Nino et al.(2014). Physical fitness, obesity and academic achievement in Schoolchildren.The Journal of Pediatrics. Vol.165.No.1
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+#### Background:
+Children with higher physical activity levels have also higher fitness levels. Physical activity related neurophysiological changes in the brain have been hypothesized to explain the positive influence of physical fitness on academic performance such as that the physical activity increases blood flow, improves neuroelectric functionality and stimulates the release of brain- derived neurotropic factor that facilitates learning and maintains cognitive functions by improving synaptic plasticity.
+        Lots of studies have been done to find the association between the physical fitness and academic achievement, however most of them have found weak relationship due to the lack of potential confounders such as parental education
+and demographic variables.This article specifically controlled BMI, parental education and age of the schoolkids participating in
+this study. Physical fitness measurements test such as cardio respiratory fitness, muscle strength, speed, agility and coordin
+ation were conducted and independent ability of each of these test on the academic achievement was tested.Academic achievement was calculated using the mean of scores in four different courses for the exam from the previous year-Mathematics, language and literature, natural, social and cultural sciences, foreign language.They found out that cardio respiratory fitness and speed agility were associated with higher academic achievement. Cardio respiratory fitness was found in boys and higher speed, agility and coordination in girls.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+#### Data Simulation:
+The dataset is simulated using the findings from the above article. Among, 893 schoolchildren 51% were girls and 49% boys.All the variables used in this study were continous and normally distributed.
+
+###### Features used:
+a. CRF-Cardio-respiratory fitness measured by shuttle run test (seconds)
+b. HG-Handgrip (kg)
+c. SG-Standing broad jump ( cm)
+d. MF-Muscular Fitness index
+e. SA-Speed/Agility/Coordination ( seconds)
+CRF,SA,HG and SG are gender,age and weight specific test.However, they controlled age and BMI for this study so these variables were simulated based on the gender. Muscular fitness index was calculated using the standzardized z-scores of handgrip and standing broad jump test. 
+
+Outcome:Academic achievement( mean of scores)
 
 ```{r}
-summary(cars)
+generateDataset<-function(N){
+  set.seed(123)
+  #Cardio Respiratory fitness
+  gender<-sample(c("M", "F"), N, replace=TRUE, prob=c(.49, .502))
+  CRF_Mean<-c(M=4.10, F=2.86)
+  CRF_SD<-c(M=1.83, F=1.25)
+  CRF<-rnorm(N, mean=CRF_Mean[gender],sd=CRF_SD[gender]) 
+  
+  HG_Mean<-c(M=15.38,F=13.78) #Handing grip ( kg)
+  HG_SD<-c(M=3.45,F=3.08)
+  HG<-rnorm(N, mean=HG_Mean[gender],sd=HG_SD[gender])
+  
+  #standing broad jump(cm)
+  SB_Mean<-c(M=119.63,F=109.28) 
+  SB_SD<-c(M=19.57,F=18.37)
+  SB<-rnorm(N, mean=SB_Mean[gender],sd=SB_SD[gender])
+  
+  MF_Index<-function(HG,SB){
+    a= (HG-mean(HG))/sd(HG)
+    b= (SB-mean(SB))/sd(SB)
+    return (a+b)
+  }
+  
+  MF<-MF_Index(HG,SB)
+  
+  SA_Mean<-c(M=13.66,F=14.49) #Handing grip ( kg)
+  SA_SD<-c(M=1.29,F=1.36)
+  SA<-rnorm(N, mean=SA_Mean[gender],sd=SA_SD[gender]) # speed agility
+  
+  scores_mean<-c(M=7.34, F=7.69)
+  scores_sd<-c(M=1.61,F=1.54)
+  
+  academic_achievement<-1+CRF+SA+1*(round(rnorm(N,mean=scores_mean[gender],scores_sd[gender]),1))
+  
+  data.frame(gender,CRF,HG,SB,MF,SA, academic_achievement)
+}
+
+N=1000
+df<-generateDataset(N)
 ```
 
-You can also embed plots, for example:
+```{r,echo=FALSE}
+par(mfrow=c(1,2))
+with(df,boxplot(SA~gender,  
+                col = c("blue", "yellow"), main = "Speed and Agility vs Gender"))
+with(df,boxplot(CRF~gender,  
+                col = c("red", "green"), main = "Cardio  Fitness vs Gender"))
+
+```
+
 
 ```{r, echo=FALSE}
-plot(cars)
+library(ggplot2)
+h <-ggplot(df,aes(x=CRF, y=academic_achievement))
+h + geom_point(aes(color=gender))+ggtitle("Cardio Fitness vs Academic_Scores")
+
+h <-ggplot(df,aes(x=SA, y=academic_achievement))
+h + geom_point(aes(color=gender))+ggtitle("Speed/Agility/Coordination vs Academic_Scores")
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
