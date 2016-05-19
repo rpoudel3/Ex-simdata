@@ -77,6 +77,7 @@ with(df,boxplot(CRF~gender,
                 col = c("red", "green"), main = "Cardio  Fitness vs Gender"))
 
 ```
+![Image of Boxplots of the fitness test grouped by gender](/images/figure_3.png)
 
 
 ```{r, echo=FALSE}
@@ -88,4 +89,3 @@ h <-ggplot(df,aes(x=SA, y=academic_achievement))
 h + geom_point(aes(color=gender))+ggtitle("Speed/Agility/Coordination vs Academic_Scores")
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
