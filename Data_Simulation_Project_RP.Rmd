@@ -102,7 +102,13 @@ From the boxplots and scatterplots, we can see that the CRF and SA are higher fo
 
 ```{r}
 summary(df)
+```
+
+```{r}
 cor(df[2:6])
+```
+
+```{r}
 fit1<-lm(academic_achievement~gender+CRF+MF+SA,data=df)
 summary(fit1)
 ```
