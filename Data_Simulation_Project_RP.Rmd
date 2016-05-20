@@ -81,6 +81,10 @@ g + geom_density(aes(x=MF, fill=gender), alpha=.5)+ggtitle("Muscular Fitness Ind
 g + geom_density(aes(x=SA, fill=gender), alpha=.5)+ggtitle("Speed/Agility/Coordination vs Academic_Scores")
 ```
 
+![Image of Density Plot of the Cardio fitness test colored by gender](/images/density_1.png)
+![Image of Density Plot of the Cardio fitness test colored by gender](/images/density_2.png)
+![Image of Density Plot of the Cardio fitness test colored by gender](/images/density_3.png)
+
 ```{r, echo=FALSE}
 h <-ggplot(df,aes(x=CRF, y=academic_achievement))
 h + geom_point(aes(color=gender))+ggtitle("Cardio Fitness vs Academic_Scores")
@@ -89,6 +93,8 @@ h <-ggplot(df,aes(x=SA, y=academic_achievement))
 h + geom_point(aes(color=gender))+ggtitle("Speed/Agility/Coordination vs Academic_Scores")
 ```
 
+![Image of Scatterplot of the Speed,agility test colored by gender](/images/figure_2.png)
+![Image of Scatterplot of the Cardio fitness test colored by gender](/images/figure_1.png)
 
 ```{r,echo=FALSE}
 par(mfrow=c(1,2))
@@ -98,19 +104,68 @@ with(df,boxplot(CRF~gender,
                 col = c("red", "green"), main = "Cardio  Fitness vs Gender"))
 ```
 
+![Image of Boxplots of the fitness test grouped by gender](/images/figure_3.png)
+
 From the boxplots and scatterplots, we can see that the CRF and SA are higher for boys and girls respectively.The higher academic scores are associated with higher range of CRF and SA.From the density plots we can see that,school boys seem to have higher Muscular fitness indesx and cardio respiratory fitness than girls. Girls have higher speed, agility and coordination for this study.
 
 ```{r}
 summary(df)
+
+## gender       CRF                HG               SB       
+##  F:512   Min.   :-0.8325   Min.   : 4.865   Min.   : 51.8  
+##  M:488   1st Qu.: 2.3195   1st Qu.:12.373   1st Qu.:101.1  
+##          Median : 3.3344   Median :14.417   Median :114.3  
+##          Mean   : 3.4813   Mean   :14.546   Mean   :114.3  
+##          3rd Qu.: 4.5780   3rd Qu.:16.719   3rd Qu.:127.5  
+##          Max.   :10.3044   Max.   :25.095   Max.   :186.6  
+##        MF                 SA        academic_achievement
+##  Min.   :-4.60349   Min.   :10.21   Min.   :29.45       
+##  1st Qu.:-0.92600   1st Qu.:13.13   1st Qu.:40.81       
+##  Median :-0.09826   Median :14.05   Median :43.64       
+##  Mean   : 0.00000   Mean   :14.06   Mean   :43.60       
+##  3rd Qu.: 0.91568   3rd Qu.:14.96   3rd Qu.:46.33       
+##  Max.   : 5.45755   Max.   :18.43   Max.   :56.54
 ```
+
 
 ```{r}
 cor(df[2:6])
+
+##             CRF          HG          SB          MF          SA
+## CRF  1.00000000  0.13636243  0.06843711  0.13939273 -0.09051263
+## HG   0.13636243  1.00000000  0.07931383  0.73461344 -0.05267322
+## SB   0.06843711  0.07931383  1.00000000  0.73461344 -0.01873038
+## MF   0.13939273  0.73461344  0.73461344  1.00000000 -0.04859944
+## SA  -0.09051263 -0.05267322 -0.01873038 -0.04859944  1.00000000
+
 ```
 
 ```{r}
 fit1<-lm(academic_achievement~gender+CRF+MF+SA,data=df)
 summary(fit1)
+
+## 
+## Call:
+## lm(formula = academic_achievement ~ gender + CRF + MF + SA, data = df)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.0964 -1.0100 -0.0318  1.0392  5.2156 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  8.74741    0.54652  16.006  < 2e-16 ***
+## genderM     -0.43569    0.11492  -3.791 0.000159 ***
+## CRF          1.98493    0.03159  62.836  < 2e-16 ***
+## MF           0.02200    0.03497   0.629 0.529442    
+## SA           2.00261    0.03699  54.143  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.548 on 995 degrees of freedom
+## Multiple R-squared:  0.8773, Adjusted R-squared:  0.8769 
+## F-statistic:  1779 on 4 and 995 DF,  p-value: < 2.2e-16
+
 ```
 
 Linear regression model was done to predict the academic achievement ( mean of scores ). Model summary shows that the CRF (Cardio respiratory fitness) ,SA( Speed agility and Coordination)  and gender seem to be the significant variables  just like  it was found from the study. Muscular fitness index seem to be not the significant variable just like they found in the paper.  R^2 of 0.87 shows the goodness of fit and p value is less than 0.05 which shows that this model is significant. 
