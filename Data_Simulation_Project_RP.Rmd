@@ -117,4 +117,5 @@ cor(df[2:6])
 fit1<-lm(academic_achievement~gender+CRF+MF+SA,data=df)
 summary(fit1)
 ```
+
 Linear regression model was done to predict the academic achievement ( mean of scores ). Model summary shows that the CRF (Cardio respiratory fitness) ,SA( Speed agility and Coordination)  and gender seem to be the significant variables  just like  it was found from the study. Muscular fitness index seem to be not the significant variable just like they found in the paper.  R^2 of 0.87 shows the goodness of fit and p value is less than 0.05 which shows that this model is significant. 
