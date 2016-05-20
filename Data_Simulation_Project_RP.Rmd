@@ -81,10 +81,6 @@ g + geom_density(aes(x=MF, fill=gender), alpha=.5)+ggtitle("Muscular Fitness Ind
 g + geom_density(aes(x=SA, fill=gender), alpha=.5)+ggtitle("Speed/Agility/Coordination vs Academic_Scores")
 ```
 
-![Image of Density Plot of the Cardio fitness test colored by gender](/images/density_1.png)
-![Image of Density Plot of the Cardio fitness test colored by gender](/images/density_2.png)
-![Image of Density Plot of the Cardio fitness test colored by gender](/images/density_3.png)
-
 ```{r, echo=FALSE}
 h <-ggplot(df,aes(x=CRF, y=academic_achievement))
 h + geom_point(aes(color=gender))+ggtitle("Cardio Fitness vs Academic_Scores")
@@ -93,8 +89,6 @@ h <-ggplot(df,aes(x=SA, y=academic_achievement))
 h + geom_point(aes(color=gender))+ggtitle("Speed/Agility/Coordination vs Academic_Scores")
 ```
 
-![Image of Scatterplot of the Speed,agility test colored by gender](/images/figure_2.png)
-![Image of Scatterplot of the Cardio fitness test colored by gender](/images/figure_1.png)
 
 ```{r,echo=FALSE}
 par(mfrow=c(1,2))
@@ -104,14 +98,9 @@ with(df,boxplot(CRF~gender,
                 col = c("red", "green"), main = "Cardio  Fitness vs Gender"))
 ```
 
-
-![Image of Boxplots of the fitness test grouped by gender](/images/figure_3.png)
-
 From the boxplots and scatterplots, we can see that the CRF and SA are higher for boys and girls respectively.The higher academic scores are associated with higher range of CRF and SA.From the density plots we can see that,school boys seem to have higher Muscular fitness indesx and cardio respiratory fitness than girls. Girls have higher speed, agility and coordination for this study.
 
 ```{r}
-N=1000
-df<-generateDataset(N)
 summary(df)
 cor(df[2:6])
 fit1<-lm(academic_achievement~gender+CRF+MF+SA,data=df)
