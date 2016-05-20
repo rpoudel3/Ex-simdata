@@ -74,18 +74,18 @@ df<-generateDataset(N)
 ```
 
 ```{r, echo=FALSE}
+library(ggplot2)
 g <- ggplot(data=df)
 g + geom_density(aes(x=CRF, fill=gender), alpha=0.5)+ggtitle("Cardio Fitness vs Academic_Scores")
 g + geom_density(aes(x=MF, fill=gender), alpha=.5)+ggtitle("Muscular Fitness Index vs Academic_Scores")
 g + geom_density(aes(x=SA, fill=gender), alpha=.5)+ggtitle("Speed/Agility/Coordination vs Academic_Scores")
 ```
 
-![Image of Scatterplot of the Cardio fitness test colored by gender](/images/density_1.png)
-![Image of Scatterplot of the Cardio fitness test colored by gender](/images/density_2.png)
-![Image of Scatterplot of the Cardio fitness test colored by gender](/images/density_3.png)
+![Image of Density Plot of the Cardio fitness test colored by gender](/images/density_1.png)
+![Image of Density Plot of the Cardio fitness test colored by gender](/images/density_2.png)
+![Image of Density Plot of the Cardio fitness test colored by gender](/images/density_3.png)
 
 ```{r, echo=FALSE}
-library(ggplot2)
 h <-ggplot(df,aes(x=CRF, y=academic_achievement))
 h + geom_point(aes(color=gender))+ggtitle("Cardio Fitness vs Academic_Scores")
 
@@ -93,8 +93,8 @@ h <-ggplot(df,aes(x=SA, y=academic_achievement))
 h + geom_point(aes(color=gender))+ggtitle("Speed/Agility/Coordination vs Academic_Scores")
 ```
 
-![Image of Scatterplot of the Cardio fitness test colored by gender](/images/figure_1.png)
 ![Image of Scatterplot of the Speed,agility test colored by gender](/images/figure_2.png)
+![Image of Scatterplot of the Cardio fitness test colored by gender](/images/figure_1.png)
 
 ```{r,echo=FALSE}
 par(mfrow=c(1,2))
@@ -103,6 +103,7 @@ with(df,boxplot(SA~gender,
 with(df,boxplot(CRF~gender,  
                 col = c("red", "green"), main = "Cardio  Fitness vs Gender"))
 ```
+
 
 ![Image of Boxplots of the fitness test grouped by gender](/images/figure_3.png)
 
